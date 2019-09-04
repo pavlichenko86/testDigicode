@@ -1,0 +1,20 @@
+.top_wrapper,
+.bottom_wrapper{
+    width: 600px;
+    margin: 0 auto;
+}
+.count_shapes,
+.surface_area,
+.sec,
+.gravity {
+    width: 150px;
+    display: inline-block;
+    border: 1px solid #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.sec,
+.gravity {
+    margin-top: 10px;
+}
