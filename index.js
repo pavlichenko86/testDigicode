@@ -10,7 +10,6 @@ body.appendChild(app.view);
 
 const wrapper = new PIXI.Graphics();
 
-// Rectangle
 wrapper.beginFill(0x061639);
 wrapper.drawRect(0, 0, app.screen.width, app.screen.height);
 wrapper.endFill();
@@ -21,9 +20,7 @@ app.stage.addChild(wrapper);
 wrapper.interactive = true;
 wrapper.buttonMode = true;
 
-
 wrapper.on('click', function(event) {
-
     let position = {
         x: event.data.global.x,
         y: event.data.global.y
@@ -46,14 +43,16 @@ function rectangle(posX, x, y, color) {
 
     rectangle.beginFill(color ? color : 0x66CCFF);
     rectangle.drawRect(0, 0, 100, 50);
-    rectangle.y = y ? y : 0;
+    rectangle.y = y ? y : 0 - rectangle.height;
     rectangle.x = x ? x : posX > 600 - rectangle.width ? 600 - rectangle.width : posX;
     rectangle.endFill();
 
     rectangle.interactive = true;
     rectangle.buttonMode = true;
+    rectangle.type = 'rectangle';
 
     rectangle.on('click', function() {
+        typeColorChange(this.type);
         this.destroy();
     });
 
@@ -71,12 +70,14 @@ function triangle(posX, x, y, color) {
     ]);
     triangle.endFill();
     triangle.x = x ? x : posX > 600 - triangle.width ? 600 - triangle.width : posX;
-    triangle.y = y ? y : 0;
+    triangle.y = y ? y : 0 - triangle.height;
 
     triangle.interactive = true;
     triangle.buttonMode = true;
+    triangle.type = 'triangle';
 
     triangle.on('click', function() {
+        typeColorChange(this.type);
         this.destroy();
     });
 
@@ -95,13 +96,15 @@ function fiveangle(posX, x, y, color) {
         60, 0
     ]);
     fiveangle.x = x ? x : posX > 600 - fiveangle.width ? 600 - fiveangle.width : posX;
-    fiveangle.y = y ? y : 0;
+    fiveangle.y = y ? y : 0 - fiveangle.height;
     fiveangle.endFill();
 
     fiveangle.interactive = true;
     fiveangle.buttonMode = true;
+    fiveangle.type = 'fiveangle';
 
     fiveangle.on('click', function() {
+        typeColorChange(this.type);
         this.destroy();
     });
 
@@ -121,14 +124,15 @@ function sixangle(posX, x, y, color) {
         0, 0
     ]);
     sixangle.x = x ? x : posX > 600 - sixangle.width ? 600 - sixangle.width : posX;
-    sixangle.y = y ? y : 0;
+    sixangle.y = y ? y : 0 - sixangle.height;
     sixangle.endFill();
-
 
     sixangle.interactive = true;
     sixangle.buttonMode = true;
+    sixangle.type = 'sixangle';
 
     sixangle.on('click', function() {
+        typeColorChange(this.type);
         this.destroy();
     });
 
@@ -140,15 +144,16 @@ function circle(posX, x, y, color) {
 
     circle.beginFill(color ? color : 0x9966FF);
     circle.drawCircle(0, 0, 50);
-    circle.y = y ? y : 0;
+    circle.y = y ? y : 0 - circle.height;
     circle.x = x ? x : posX > 600 - circle.width ? 600 - circle.width : posX;
     circle.endFill();
 
-
     circle.interactive = true;
     circle.buttonMode = true;
+    circle.type = 'circle';
 
     circle.on('click', function() {
+        typeColorChange(this.type);
         this.destroy();
     });
 
@@ -160,81 +165,50 @@ function ellipse(posX, x, y, color) {
 
     ellipse.beginFill(color ? color : 0xFFFF00);
     ellipse.drawEllipse(0, 0, 50, 20);
-    ellipse.y = y ? y : 0;
+    ellipse.y = y ? y : 0 - ellipse.height;
     ellipse.x = x ? x : posX > 600 - ellipse.width ? 600 - ellipse.width : posX;
     ellipse.endFill();
 
     ellipse.interactive = true;
     ellipse.buttonMode = true;
+    ellipse.type = 'ellipse';
 
     ellipse.on('click', function() {
+        typeColorChange(this.type);
         this.destroy();
     });
 
     return ellipse;
 }
 
+function random(posX, x, y, color) {
+    let graphics = new PIXI.Graphics();
 
-// function checkShape(shapeObj) {
-//     let shape = new PIXI.Graphics();
-//
-//     switch (shapeObj){
-//         case 'rectangle':
-//             shape.beginFill(0x66CCFF);
-//             shape.drawRect(0, 0, 100, 50);
-//             shape.y = 0 - shape.height;
-//             shape.endFill();
-//
-//             break;
-//         case 'triangl':
-//             shape.beginFill(0x66FF33);
-//             shape.drawPolygon([
-//                 -32, 64,
-//                 32, 64,
-//                 0, 0
-//             ]);
-//             shape.endFill();
-//             shape.x = 180;
-//             shape.y = 0 - shape.height;
-//
-//             break;
-//         case 'circle':
-//             shape.beginFill(0x9966FF);
-//             shape.drawCircle(200, 0, 50);
-//             shape.endFill();
-//             shape.y = 0 - shape.height;
-//
-//             break;
-//         case 'ellipse':
-//             shape.beginFill(0xFFFF00);
-//             shape.drawEllipse(100, 0, 50, 20);
-//             shape.y = 0 - shape.height;
-//             shape.endFill();
-//
-//             break;
-//         case 'fiveangle':
-//             shape.beginFill(0xffffff);
-//             shape.drawPolygon([
-//                 0, -20,
-//                 20, 80,
-//                 40, 60,
-//                 80, 60,
-//                 60, 0
-//             ]);
-//             shape.endFill();
-//             shape.x = 380;
-//             shape.y = 0 - shape.height;
-//
-//             break;
-//     }
-//
-//     return shape;
-// }
+    graphics.drawRoundedRect(0, 0, 300, 100, 15);
+    graphics.drawRect(0, 0, 300, 120);
+    graphics.drawCircle(0, 0, 300);
+    graphics.beginFill(0xFF00BB, 0.25);
+    graphics.y = y ? y : 0 - graphics.height;
+    graphics.x = x ? x : posX > 600 - graphics.width ? 600 - graphics.width : posX;
+
+    graphics.endFill();
+
+    return graphics;
+}
+
+function typeColorChange(type) {
+    let newColor = getRandomColor();
+
+    for(let i = 0; i < app.stage.children.length; i++) {
+        if (app.stage.children[i].type && app.stage.children[i].type === type) {
+            app.stage.children[i].tint = newColor;
+        }
+    }
+}
 
 function runFall(x, y) {
     let randX = Math.floor(Math.random() * 600),
-        randFun = Math.floor(Math.random() * 6);
-
+        randFun = Math.floor(Math.random() * 7);
 
     switch (randFun) {
         case 0 :
@@ -255,16 +229,18 @@ function runFall(x, y) {
         case 5 :
             app.stage.addChild(ellipse(randX, x, y, getRandomColor()));
             break;
+        case 6 :
+            app.stage.addChild(random(randX, x, y, getRandomColor()));
+            break;
     }
 }
 
 runFall();
 setInterval(function () {
     let call = document.querySelector('.num_of_shapes');
- for (let i = 1; i <= call.innerText; i++) {
-
-     runFall();
- }
+    for (let i = 1; i <= call.innerText; i++) {
+        runFall();
+    }
 }, 1000);
 
 let gravity = 4,
@@ -280,6 +256,7 @@ add.addEventListener('click', function() {
     shapesSec++;
     num_of_shapes.innerText = shapesSec;
 });
+
 remove.addEventListener('click', function() {
     if (shapesSec === 1) {
         alert('Value mast be more than 1');
@@ -293,6 +270,7 @@ add_gravity.addEventListener('click', function() {
     gravity++;
     gravity_res.innerText = gravity;
 });
+
 remove_gravity.addEventListener('click', function() {
     if (gravity === 1) {
         alert('Gravity value mast be more than 1');
@@ -301,6 +279,7 @@ remove_gravity.addEventListener('click', function() {
         gravity_res.innerText = gravity;
     }
 });
+
 setInterval(function () {
     for(let i = 0; i < app.stage.children.length; i++) {
         if (app.screen.height < app.stage.children[i].y) {
