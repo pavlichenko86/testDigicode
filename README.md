@@ -3,4 +3,4 @@
 
 1.npm install
 
-2.open index.html in browser
+2. npm start for start server and opening app in browser
