@@ -3,4 +3,5 @@
 
 1.npm install
 
-2. npm start for start server and opening app in browser
+2. npm run build -- to build project
+3. npm run start -- to run watcher
